@@ -7,7 +7,7 @@ on:
         type: choice
         description: "Select the brand name"
         options:
-          - TOUFIK
+          - GCP
       environment_name:
         type: choice
         description: "Select the environment name"
@@ -48,8 +48,8 @@ jobs:
         id: set-env
         run: |
           case "${{ inputs.brand_name }}" in
-            "TOUFIK")
-              echo "resource_env=toufik" >> $GITHUB_ENV
+            "GCP")
+              echo "resource_env=gcp" >> $GITHUB_ENV
               ;;
             *)
               echo "resource_env=unknown" >> $GITHUB_ENV
@@ -85,7 +85,7 @@ jobs:
       - name: Set tg path and install checkov
         id: set-folder
         run: |
-          echo "tg_dir=terragrunt/${{ env.resource_env }}-gcp/${{ inputs.environment_name }}/${{ inputs.resource }}" >> $GITHUB_ENV
+          echo "tg_dir=terragrunt/${{ env.resource_env }}/${{ inputs.environment_name }}/${{ inputs.resource }}" >> $GITHUB_ENV
           pip3 install checkov
           pip3 install -U checkov
           checkov --version
@@ -150,50 +150,50 @@ jobs:
           tg_dir: ${{ env.tg_dir }} # terragrunt/${{ env.resource_env }}_terragrunt/${{ env.resource_env }}/${{ inputs.environment_name }}/${{ inputs.resource }}
           tg_command: 'apply'
 
-      - name: Slack Notification of Checkov and Deployment
-        uses: slackapi/slack-github-action@v2.0.0
-        with:
-          method: chat.postMessage
-          token: ${{ env.SLACK_BOT_TOKEN}}
-          payload: |
-            {
-              "channel": "${{ env.CHANNEL}}",
-              "text": "🚀 *Deployment Report for ${{ github.repository }}*",
-              "attachments": [
-                {
-                  "color": "#e01e5a",
-                  "fields": [
-                    {
-                      "title": "Branch",
-                      "value": "${{ github.ref_name }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Brand Name",
-                      "value": "${{ inputs.brand_name }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Environment",
-                      "value": "${{ inputs.environment_name }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Resource",
-                      "value": "${{ inputs.resource }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Operation",
-                      "value": "${{ inputs.tf_function }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Checkov Terraform Plan Result",
-                      "value": "Passed tests: ${{ env.test_result }}",
-                      "short": false
-                    }
-                  ]
-                }
-              ]
-            }      
+    #   - name: Slack Notification of Checkov and Deployment
+    #     uses: slackapi/slack-github-action@v2.0.0
+    #     with:
+    #       method: chat.postMessage
+    #       token: ${{ env.SLACK_BOT_TOKEN}}
+    #       payload: |
+    #         {
+    #           "channel": "${{ env.CHANNEL}}",
+    #           "text": "🚀 *Deployment Report for ${{ github.repository }}*",
+    #           "attachments": [
+    #             {
+    #               "color": "#e01e5a",
+    #               "fields": [
+    #                 {
+    #                   "title": "Branch",
+    #                   "value": "${{ github.ref_name }}",
+    #                   "short": true
+    #                 },
+    #                 {
+    #                   "title": "Brand Name",
+    #                   "value": "${{ inputs.brand_name }}",
+    #                   "short": true
+    #                 },
+    #                 {
+    #                   "title": "Environment",
+    #                   "value": "${{ inputs.environment_name }}",
+    #                   "short": true
+    #                 },
+    #                 {
+    #                   "title": "Resource",
+    #                   "value": "${{ inputs.resource }}",
+    #                   "short": true
+    #                 },
+    #                 {
+    #                   "title": "Operation",
+    #                   "value": "${{ inputs.tf_function }}",
+    #                   "short": true
+    #                 },
+    #                 {
+    #                   "title": "Checkov Terraform Plan Result",
+    #                   "value": "Passed tests: ${{ env.test_result }}",
+    #                   "short": false
+    #                 }
+    #               ]
+    #             }
+    #           ]
+    #         }      
