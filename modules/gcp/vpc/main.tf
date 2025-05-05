@@ -27,36 +27,42 @@ module "vpc" {
             subnet_ip             = var.subnet_cidrs.public_01
             subnet_region         = local.subnet_region
             subnet_private_access = "false"  # Public subnet should have direct internet access
+            subnet_enable_flow_logs = true
         },
         {
             subnet_name           = "${var.subnet_prefix}-private-01"
             subnet_ip             = var.subnet_cidrs.private_01
             subnet_region         = local.subnet_region
             subnet_private_access = "true"
+            subnet_enable_flow_logs = true
         },
         {
             subnet_name           = "${var.subnet_prefix}-public-02"
             subnet_ip             = var.subnet_cidrs.public_02
             subnet_region         = local.subnet_region
             subnet_private_access = "false"  # Public subnet should have direct internet access
+            subnet_enable_flow_logs = true
         },
         {
             subnet_name           = "${var.subnet_prefix}-private-02"
             subnet_ip             = var.subnet_cidrs.private_02
             subnet_region         = local.subnet_region
             subnet_private_access = "true"
+            subnet_enable_flow_logs = true
         },
         {
             subnet_name           = "${var.subnet_prefix}-public-03"
             subnet_ip             = var.subnet_cidrs.public_03
             subnet_region         = local.subnet_region
             subnet_private_access = "false"  # Public subnet should have direct internet access
+            subnet_enable_flow_logs = true
         },
         {
             subnet_name           = "${var.subnet_prefix}-private-03"
             subnet_ip             = var.subnet_cidrs.private_03
             subnet_region         = local.subnet_region
             subnet_private_access = "true"
+            subnet_enable_flow_logs = true
         }
     ]
 
