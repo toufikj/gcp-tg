@@ -116,13 +116,13 @@ jobs:
 
       - name: Checkov on Plan JSON
         continue-on-error: true
-        working-directory: ${{github.workspace}}/terragrunt/${{ env.resource_env }}-gcp/
+        working-directory: ${{github.workspace}}/terragrunt/${{ env.resource_env }}/
         run: |
           export CHECKOV_OUTPUT_CODE_LINE_LIMIT=1500
           checkov -f plan.json  --framework terraform_plan --output-file-path plan 
 
       - name: Parse Test Results
-        working-directory: ${{github.workspace}}/terragrunt/${{ env.resource_env }}-gcp/
+        working-directory: ${{github.workspace}}/terragrunt/${{ env.resource_env }}/
         run: |
           sudo find ${{github.workspace}} -name "plan"
           TEST_RESULT=$(grep -oP "Passed checks: \K.*" plan/results_cli.txt || echo "N/A")
