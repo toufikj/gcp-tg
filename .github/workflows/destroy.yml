@@ -7,7 +7,7 @@ on:
         type: choice
         description: "Select the brand name"
         options:
-          - ELEVATE
+          - GCP
       environment_name:
         type: choice
         description: "Select the environment name"
@@ -48,8 +48,8 @@ jobs:
         id: set-env
         run: |
           case "${{ inputs.brand_name }}" in
-            "TOUFIK")
-              echo "resource_env=toufik" >> $GITHUB_ENV
+            "GCP")
+              echo "resource_env=gcp" >> $GITHUB_ENV
               ;;
             *)
               echo "resource_env=unknown" >> $GITHUB_ENV
@@ -68,7 +68,7 @@ jobs:
       - name: Set the Terragrunt folder path
         id: set-folder
         run: |
-          echo "tg_dir=terragrunt/${{ env.resource_env }}-gcp/${{ inputs.environment_name }}/${{ inputs.resource }}" >> $GITHUB_ENV
+          echo "tg_dir=terragrunt/${{ env.resource_env }}/${{ inputs.environment_name }}/${{ inputs.resource }}" >> $GITHUB_ENV
 
       - name: Terraform Plan
         # if: inputs.tf_function == 'plan'
